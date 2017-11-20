@@ -153,6 +153,8 @@ def computeSumMonthLoad():
                     resDict[key] = count
                 e.write(json.dumps([id,resDict])+'\n')
 
+
+
 if __name__ == '__main__':
     # analysis11MonthLoad()
     # observeLoadPerMonth()
