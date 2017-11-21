@@ -14,6 +14,7 @@ from math import log
 
 """将文件中所有的金额数据转换为实际数据"""
 class convertMoney:
+    """ 通过公式将加密后的金额转为实际金额。公式：y=5**x-1"""
     def convertMoney(self, money):
         try:
             money = np.power(5,money)-1
@@ -37,11 +38,18 @@ class convertMoney:
                         money = log(value,5)
                     e.write(data[0]+','+str(money)+'\n')
 
+
+    """
+    写入dataframe到文件当中
+    输入1：data 
+    输入2：path
+    
+    """
     def save2File(self, data, path):
         data.to_csv(path,index = False)
 
 
-
+    """ 将表order loan loansum user表当中的金额转为实际金融"""
     def run(self):
         orderFile = pd.read_csv(fileConfig.tmp_orderFile)
         loanFile = pd.read_csv(fileConfig.loanFile)
