@@ -3,13 +3,14 @@
 import pandas as pd
 from datetime import datetime
 import json
+from fileConfig import fileConfig
 
 """分析11月的借款总金额"""
 def analysis11MonthLoad():
-    userDF = pd.read_csv(unicode(r'D:\京东金融\t_user.csv','utf-8'))
+    userDF = pd.read_csv(fileConfig.userFile)
     userIDLs = userDF.uid.tolist()
 
-    loan_sum = pd.read_csv(unicode(r'D:\京东金融\t_loan_sum.csv','utf-8'))
+    loan_sum = pd.read_csv(fileConfig.loanSumFile)
 
     userLoanSumLs = []
     userLoanLs = []
@@ -18,7 +19,7 @@ def analysis11MonthLoad():
     fq = {8:3,9:2,10:1}
 
     # loan_sum = pd.read_csv(unicode(r'D:\京东金融\t_loan_sum.csv','utf-8'))
-    loan = pd.read_csv(unicode(r'D:\京东金融\t_loan.csv', 'utf-8'))
+    loan = pd.read_csv(fileConfig.loanFile)
     print
 
     for uid in userIDLs:
@@ -54,7 +55,7 @@ def analysis11MonthLoad():
 def observeLoadPerMonth():
     i = 0
     resDict = {}
-    with open(unicode(r'D:\京东金融\t_loan.csv', 'utf-8'),'r') as e:
+    with open(fileConfig.loanFile,'r') as e:
         for line in e:
             if i==0:
                 i+=1
@@ -74,7 +75,7 @@ def observeLoadPerMonth():
 def extractUserActivateMonth():
     i = 0
     with open(unicode(r'../dataFile/t_user提取用户的激活时间.csv', 'utf-8'),'w') as e1:
-        with open(unicode(r'D:\京东金融\t_user.csv', 'utf-8'),'r') as e:
+        with open(fileConfig.userFile,'r') as e:
             for line in e:
                 if i == 0:
                     i+=1
