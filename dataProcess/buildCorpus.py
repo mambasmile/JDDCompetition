@@ -3,10 +3,11 @@
 from datetime import datetime
 import pandas as pd
 import json
+from fileConfig import fileConfig
 
 """分析用户每个月的消费情况"""
 def buildUserMonthLoad(trainCorpus=True):
-    userDF = pd.read_csv(unicode(r'D:\京东金融\t_user.csv','utf-8'))
+    userDF = pd.read_csv(fileConfig.userFile)
     userIDLs = userDF.uid.tolist()
 
     with open(unicode('../dataFile/用户每个月的借款(借款总金额)', 'utf-8'), 'r') as e:
@@ -57,10 +58,10 @@ def buildUser():
 
 """建立loan_sum.csv"""
 def buildLoanSum():
-    loan_sum = pd.read_csv(unicode(r'D:\京东金融\t_loan_sum.csv', 'utf-8'))
+    loan_sum = pd.read_csv(fileConfig.loanSumFile)
     uidLs = loan_sum.uid.tolist()
     loanSumLs = loan_sum.loan_sum.tolist()
-    userDF = pd.read_csv(unicode(r'D:\京东金融\t_user.csv', 'utf-8'))
+    userDF = pd.read_csv(fileConfig.userFile)
     allUidLs = userDF.uid.tolist()
     for id in allUidLs:
         if id not in uidLs:
@@ -72,14 +73,14 @@ def buildLoanSum():
 
 """分析用户的order文件，将用户每个月的消费记录抽取出来"""
 def analysisOrder(trainCorpus=True):
-    orderDF = pd.read_csv(unicode(r'D:\京东金融\t_order.csv', 'utf-8'))
+    orderDF = pd.read_csv(fileConfig.orderFile)
     orderDF = orderDF.fillna(0.0)
-    orderDF.to_csv(unicode(r'D:\京东金融\t_order1.csv', 'utf-8'),index=False)
-    userDF = pd.read_csv(unicode(r'D:\京东金融\t_user.csv','utf-8'))
+    orderDF.to_csv(fileConfig.tmp_orderFile,index=False)
+    userDF = pd.read_csv(fileConfig.userFile)
     userIDLs = userDF.uid.tolist()
     i = 0
     resDict = {}
-    with open(unicode(r'D:\京东金融\t_order1.csv', 'utf-8'), 'r') as e:
+    with open(fileConfig.tmp_orderFile, 'r') as e:
         """新产生的行"""
         firstMonthNum = [] ##8月份的订单数目
         secondMonthNum = [] ##9月份的订单数目
@@ -104,7 +105,7 @@ def analysisOrder(trainCorpus=True):
             except ValueError as e:
                 print i,data,e
 
-            if month > monthLs[-1]:
+            if (month > monthLs[-1]) or (month < monthLs[0]):
                 continue
             if data[0] not in resDict:
                 resDict[data[0]] = {'time':[],'oldPrice':0.0,'newPrice':0.0,'cate_idLs':[]}
@@ -175,11 +176,11 @@ def computeMonthNum(monthLs,time):
 
 def clickCorpus(trainCorpus):
 
-    userDF = pd.read_csv(unicode(r'D:\京东金融\t_user.csv', 'utf-8'))
+    userDF = pd.read_csv(fileConfig.userFile)
     userIDLs = userDF.uid.tolist()
     i = 0
     resDict = {}
-    with open(unicode(r'D:\京东金融\t_click.csv', 'utf-8'), 'r') as e:
+    with open(fileConfig.clickFile, 'r') as e:
         """新产生的行"""
         firstMonthNum = []  ##8月份的点击次数
         secondMonthNum = []  ##9月份的点击次数
@@ -204,7 +205,7 @@ def clickCorpus(trainCorpus):
             except ValueError as e:
                 print i, data, e
 
-            if month > monthLs[-1]:
+            if (month > monthLs[-1]) or (month < monthLs[0]):
                 continue
             if data[0] not in resDict:
                 resDict[data[0]] = {'time': [],'pidLs': []}
@@ -253,8 +254,8 @@ def clickCorpus(trainCorpus):
 
 """得到训练集的value"""
 def fillUserLoadSum():
-    loadSum = pd.read_csv(unicode(r'D:\京东金融\t_loan_sum.csv', 'utf-8'))
-    userDF = pd.read_csv(unicode(r'D:\京东金融\t_user.csv', 'utf-8'))
+    loadSum = pd.read_csv(fileConfig.loanSumFile)
+    userDF = pd.read_csv(fileConfig.userFile)
     resDF = pd.concat([userDF['uid'],loadSum[['uid','loan_sum']]],axis=1)
     resDF = resDF.fillna(0.0)
     resDF.to_csv('../corpus/value.csv',index=False)
@@ -283,8 +284,8 @@ def mergeDF():
 if __name__ == '__main__':
     # buildUser()
     # buildLoanSum()
-    # analysisOrder(trainCorpus=False)
+    # analysisOrder(trainCorpus=True)
     # buildUserMonthLoad(trainCorpus=False)
-    # clickCorpus(trainCorpus=False)
+    clickCorpus(trainCorpus=False)
     # mergeDF()
-    fillUserLoadSum()
+    # fillUserLoadSum()
