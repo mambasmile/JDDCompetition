@@ -44,7 +44,7 @@ def analysisUserLoadPerMonth(trainCorpus=True):
                           'secondMonthLoad':secondMonthLoad,
                           'thirdMonthLoad':thirdMonthLoad,
                           })
-    resDF = pd.concat([resDF,userDF[['uid']]],axis=1)
+    resDF = pd.merge(resDF,userDF[['uid']],on='uid',how='right')
     # resDF.uid = resDF.uid.astype(int)
     resDF = resDF.fillna(0.0)
     if trainCorpus:
@@ -53,4 +53,4 @@ def analysisUserLoadPerMonth(trainCorpus=True):
         resDF.to_csv('../secondCorpus/test_userMonthLoad.csv', index=False)
 
 if __name__ == '__main__':
-    analysisUserLoadPerMonth(trainCorpus=True)
+    analysisUserLoadPerMonth(trainCorpus=False)

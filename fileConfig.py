@@ -17,6 +17,7 @@ class fileConfig:
     CovertedorderFile = unicode(basicFile+r'\Coverted_order1.csv', 'utf-8')
     CoverteduserFile = unicode(basicFile+r'\Coverted_user.csv', 'utf-8')
 
+    CoverteduserCorpusFile = unicode(r'../corpus/Coverted_user.csv', 'utf-8')
+
     timeCovertedloanFile = unicode(basicFile+r'\timeCoverted_loan.csv', 'utf-8')
 
-print fileConfig.userFile
