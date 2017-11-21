@@ -21,5 +21,14 @@ def extractUserActivateMonth():
 
 
 if __name__ == '__main__':
+<<<<<<< HEAD
 
     extractUserActivateMonth()
+=======
+    analysis11MonthLoad()
+    observeLoadPerMonth()
+    extractUserActivateMonth()
+    findUser()
+    computeUserLoadPerMonth()
+    computeSumMonthLoad()
+>>>>>>> origin
