@@ -21,9 +21,10 @@ class convertMoney:
 
     def save2File(self, data, path):
         data.to_csv(path,index = False)
-
-
-
+    """将实际金额转换为指数金额"""
+    def convertSubmissonMoney(self,realMoney):
+        convertedMoney = np.log(realMoney+1)/np.log(5)
+        return convertedMoney
     def run(self):
         orderFile = pd.read_csv(fileConfig.orderFile)
         loanFile = pd.read_csv(fileConfig.loanFile)
