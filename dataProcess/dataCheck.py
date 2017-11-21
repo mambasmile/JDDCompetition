@@ -157,9 +157,9 @@ def computeSumMonthLoad():
 
 
 if __name__ == '__main__':
-    # analysis11MonthLoad()
-    # observeLoadPerMonth()
-    # extractUserActivateMonth()
-    # findUser()
-    # computeUserLoadPerMonth()
+    analysis11MonthLoad()
+    observeLoadPerMonth()
+    extractUserActivateMonth()
+    findUser()
+    computeUserLoadPerMonth()
     computeSumMonthLoad()
