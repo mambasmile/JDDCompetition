@@ -55,7 +55,7 @@ def analysis11MonthLoad():
 def observeLoadPerMonth():
     i = 0
     resDict = {}
-    with open(fileConfig.loanFile,'r') as e:
+    with open(fileConfig.CovertedloanFile,'r') as e:
         for line in e:
             if i==0:
                 i+=1
@@ -70,6 +70,7 @@ def observeLoadPerMonth():
     with open(unicode('../dataFile/用户每个月的借款记录条数','utf-8'),'w') as e:
         for key in resDict:
             e.write(json.dumps([str(key),resDict[key]])+'\n')
+
 
 """提取用户的激活时间"""
 def extractUserActivateMonth():
@@ -153,8 +154,6 @@ def computeSumMonthLoad():
                         count+=float(ls[0])
                     resDict[key] = count
                 e.write(json.dumps([id,resDict])+'\n')
-
-
 
 if __name__ == '__main__':
     analysis11MonthLoad()

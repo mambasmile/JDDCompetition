@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2017/11/21 14:50
 # @Author  : sunday
-# @Site    : 
+# @Site    :
 # @File    : convertMoney.py
 # @Software: PyCharm
 from datetime import datetime
@@ -10,28 +10,45 @@ import pandas as pd
 import json
 import numpy as np
 from fileConfig import fileConfig
+from math import log
+
 """将文件中所有的金额数据转换为实际数据"""
 class convertMoney:
     def convertMoney(self, money):
         try:
             money = np.power(5,money)-1
             return money
-        except e:
+        except:
             print money
+
+    def reverseConvertMoney(self,file,outpath):
+        i = 0
+        with open(outpath,'w') as e:
+            with open(file,'r') as e1:
+                for line in e1:
+                    if i==0:
+                        i+=1
+                        continue
+                    data = line.strip().split(',')
+                    value = float(data[-1])+1
+                    if value <= 0:
+                        money = 0
+                    else:
+                        money = log(value,5)
+                    e.write(data[0]+','+str(money)+'\n')
 
     def save2File(self, data, path):
         data.to_csv(path,index = False)
-    """将实际金额转换为指数金额"""
-    def convertSubmissonMoney(self,realMoney):
-        convertedMoney = np.log(realMoney+1)/np.log(5)
-        return convertedMoney
+
+
+
     def run(self):
-        orderFile = pd.read_csv(fileConfig.orderFile)
+        orderFile = pd.read_csv(fileConfig.tmp_orderFile)
         loanFile = pd.read_csv(fileConfig.loanFile)
         loanSumFile = pd.read_csv(fileConfig.loanSumFile)
         userFile = pd.read_csv(fileConfig.userFile)
 
-
+        # print self.convertOrder(orderFile.price)
         orderFile.discount = self.convertMoney(orderFile.discount)
         orderFile.price = self.convertMoney(orderFile.price)
         userFile.limit = self.convertMoney(userFile.limit)
@@ -44,5 +61,15 @@ class convertMoney:
         self.save2File(orderFile, fileConfig.CovertedorderFile)
         self.save2File(userFile, fileConfig.CoverteduserFile)
 
-convert = convertMoney()
-convert.run()
+    def convertDF(self,df,featureLs):
+        for feature in featureLs:
+            df[feature] = self.convertMoney(df[feature])
+        return df
+
+if __name__ == '__main__':
+    convert = convertMoney()
+    # convert.run()
+
+    """结果恢复"""
+    convert.reverseConvertMoney(r'C:\Users\13277\PycharmProjects\xgbModel\modelResult\submission.csv',
+                                r'C:\Users\13277\PycharmProjects\xgbModel\modelResult\submissionFinal.csv')
