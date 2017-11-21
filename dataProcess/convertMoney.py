@@ -16,7 +16,7 @@ class convertMoney:
         try:
             money = np.power(5,money)-1
             return money
-        except:
+        except e:
             print money
 
     def save2File(self, data, path):
@@ -31,7 +31,7 @@ class convertMoney:
         loanSumFile = pd.read_csv(fileConfig.loanSumFile)
         userFile = pd.read_csv(fileConfig.userFile)
 
-        # print self.convertOrder(orderFile.price)
+
         orderFile.discount = self.convertMoney(orderFile.discount)
         orderFile.price = self.convertMoney(orderFile.price)
         userFile.limit = self.convertMoney(userFile.limit)
