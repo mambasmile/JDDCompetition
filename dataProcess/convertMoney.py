@@ -5,12 +5,8 @@
 # @Site    :
 # @File    : convertMoney.py
 # @Software: PyCharm
-from datetime import datetime
-import pandas as pd
-import json
-import numpy as np
-from fileConfig import fileConfig
-from math import log
+
+from __init__ import *
 
 """将文件中所有的金额数据转换为实际数据"""
 class convertMoney:
@@ -43,13 +39,16 @@ class convertMoney:
     写入dataframe到文件当中
     输入1：data 
     输入2：path
-    
+    输出：文件
     """
     def save2File(self, data, path):
         data.to_csv(path,index = False)
 
 
-    """ 将表order loan loansum user表当中的金额转为实际金融"""
+    """ 将表order loan loansum user表当中的金额转为实际金额
+        输入：空
+        输出：4个文件
+    """
     def run(self):
         orderFile = pd.read_csv(fileConfig.tmp_orderFile)
         loanFile = pd.read_csv(fileConfig.loanFile)
@@ -69,6 +68,11 @@ class convertMoney:
         self.save2File(orderFile, fileConfig.CovertedorderFile)
         self.save2File(userFile, fileConfig.CoverteduserFile)
 
+    """
+    将df文件当中指定属性转为实际金额
+    输入：df
+    输出：df
+    """
     def convertDF(self,df,featureLs):
         for feature in featureLs:
             df[feature] = self.convertMoney(df[feature])
@@ -79,5 +83,5 @@ if __name__ == '__main__':
     # convert.run()
 
     """结果恢复"""
-    convert.reverseConvertMoney(r'C:\Users\13277\PycharmProjects\xgbModel\modelResult\submission.csv',
-                                r'C:\Users\13277\PycharmProjects\xgbModel\modelResult\submissionFinal.csv')
+    convert.reverseConvertMoney(r'../modelResult/submission.csv',
+                                r'../modelResult/submissionFinal.csv')

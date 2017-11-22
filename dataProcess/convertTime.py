@@ -1,7 +1,6 @@
 #coding=utf-8
 
-from datetime import datetime
-from fileConfig import fileConfig
+from __init__ import *
 
 """取时间里面的月"""
 class convertTime:

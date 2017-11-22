@@ -1,8 +1,6 @@
 #coding=utf-8
 
-import pandas as pd
-from fileConfig import fileConfig
-from datetime import datetime
+from __init__ import *
 """
 分析用户每个月的消费金额：根据月份统计用户每个月总的消费金额
 输入：trainCorpus：True 表示构造训练集 |trainCorpus：False 表示构造测试集
@@ -10,7 +8,6 @@ from datetime import datetime
 """
 def analysisUserLoadPerMonth(trainCorpus=True):
     userDF = pd.read_csv(fileConfig.userFile)
-    # with open()
     if trainCorpus:
         monthLs = [8,9,10]
     else:
@@ -32,8 +29,6 @@ def analysisUserLoadPerMonth(trainCorpus=True):
                 secondMonthLoad.append(sum(subgroup.loan_amount.tolist()))
             elif subname == monthLs[2]:
                 thirdMonthLoad.append(sum(subgroup.loan_amount.tolist()))
-            # else:
-            #     print subgroup
         resLs = list(set(monthLs) - tmpSet)
         for ele in resLs:
             if ele == monthLs[0]:
@@ -49,12 +44,9 @@ def analysisUserLoadPerMonth(trainCorpus=True):
                           'thirdMonthLoad':thirdMonthLoad,
                           })
     resDF = pd.merge(resDF,userDF[['uid']],on='uid',how='right')
-    # resDF.uid = resDF.uid.astype(int)
     resDF = resDF.fillna(0.0)
     if trainCorpus:
-        resDF.to_csv('../secondCorpus/train_userMonthLoad.csv',index=False)
+        resDF.to_csv('../corpus/train_userMonthLoad.csv',index=False)
     else:
-        resDF.to_csv('../secondCorpus/test_userMonthLoad.csv', index=False)
+        resDF.to_csv('../corpus/test_userMonthLoad.csv', index=False)
 
-if __name__ == '__main__':
-    analysisUserLoadPerMonth(trainCorpus=False)
