@@ -1,17 +1,14 @@
 #coding=utf-8
-from datetime import datetime
-import pandas as pd
-import json
-from fileConfig import fileConfig
-from convertMoney import convertMoney
+from __init__ import *
 
-"""训练集：8月，9月，10月点击次数；三个月点击总次数，三个月点击页面种类次数
+"""
+    训练集：8月，9月，10月点击次数；三个月点击总次数，三个月点击页面种类次数
     测试集：9月，10月，11月点击次数；三个月点击总次数，三个月点击页面种类次数
      
     输入：trainCorpus：True生成训练集 |trainCorpus：Flase生成测试集
     输出：train_click.csv |test_click.csv
-           
-           """
+"""
+
 def clickCorpus(trainCorpus):
 
     userDF = pd.read_csv(fileConfig.userFile)
@@ -102,37 +99,23 @@ def fillUserLoadSum():
     resDF = resDF.fillna(0.0)
     resDF.to_csv('../corpus/value.csv',index=False)
 
-"""合并数据集"""
-def mergeDF():
-    convertDFMoney = convertMoney()
 
-    basicFile = 'secondCorpus'
-    userDF = pd.read_csv(unicode(r'../dataFile/t_user提取用户的激活时间.csv','utf-8'))
-    trainOrder = pd.read_csv(unicode(r'../'+basicFile+'/train_order.csv','utf-8'))
-    testOrder = pd.read_csv(unicode(r'../'+basicFile+'/test_order.csv','utf-8'))
-    trainClick = pd.read_csv(unicode(r'../corpus/train_click.csv','utf-8'))
-    testClick = pd.read_csv(unicode(r'../corpus/test_click.csv','utf-8'))
 
-    convertuserDF = convertDFMoney.convertDF(userDF,['limit'])
-    # convertTrainOrder = convertDFMoney.convertDF(trainOrder,['newPrice','oldPrice'])
-    # convertTestOrder = convertDFMoney.convertDF(testOrder,['newPrice','oldPrice'])
-
-    trainUserMonthLoad = pd.read_csv('../'+basicFile+'/train_userMonthLoad.csv')
-    testUserMonthLoad = pd.read_csv('../'+basicFile+'/test_userMonthLoad.csv')
-
-    trainDF = pd.merge(convertuserDF,trainOrder,on='uid')
-    trainDF = pd.merge(trainDF,trainClick,on='uid')
-    trainDF = pd.merge(trainDF,trainUserMonthLoad,on='uid')
-
-    testDF = pd.merge(convertuserDF,testOrder,on='uid')
-    testDF = pd.merge(testDF,testClick,on='uid')
-    testDF = pd.merge(testDF,testUserMonthLoad,on='uid')
-
-    trainDF.to_csv('../'+basicFile+'/train.csv',index=False)
-    testDF.to_csv('../'+basicFile+'/test.csv',index=False)
-
-if __name__ == '__main__':
-
-    # clickCorpus(trainCorpus=True)
-    # mergeDF()
-    fillUserLoadSum()
+"""统计每个月出现的次数"""
+def computeMonthNum(monthLs,time):
+    monthLs1 = 0
+    monthLs2 = 0
+    monthLs3 = 0
+    monthLs4 = 0
+    for val in time:
+        for i in xrange(monthLs.__len__()):
+            if int(val) == monthLs[i]:
+                if i == 0:
+                    monthLs1 +=1
+                elif i == 1:
+                    monthLs2 +=1
+                elif i ==2:
+                    monthLs3 +=1
+                else:
+                    monthLs4 +=1
+    return monthLs1,monthLs2,monthLs3,monthLs4

@@ -1,9 +1,6 @@
 #coding=utf-8
 
-import pandas as pd
-from datetime import datetime
-import json
-from fileConfig import fileConfig
+from __init__ import *
 
 """提取用户的激活时间"""
 def extractUserActivateMonth():
@@ -13,6 +10,7 @@ def extractUserActivateMonth():
             for line in e:
                 if i == 0:
                     i+=1
+                    e1.write(line)
                     continue
                 data = line.strip().split(',')
                 month = datetime.strptime(data[-2], '%Y-%m-%d').month
@@ -21,14 +19,5 @@ def extractUserActivateMonth():
 
 
 if __name__ == '__main__':
-<<<<<<< HEAD
 
     extractUserActivateMonth()
-=======
-    analysis11MonthLoad()
-    observeLoadPerMonth()
-    extractUserActivateMonth()
-    findUser()
-    computeUserLoadPerMonth()
-    computeSumMonthLoad()
->>>>>>> origin
