@@ -5,7 +5,13 @@ import json
 from fileConfig import fileConfig
 from convertMoney import convertMoney
 
-
+"""训练集：8月，9月，10月点击次数；三个月点击总次数，三个月点击页面种类次数
+    测试集：9月，10月，11月点击次数；三个月点击总次数，三个月点击页面种类次数
+     
+    输入：trainCorpus：True生成训练集 |trainCorpus：Flase生成测试集
+    输出：train_click.csv |test_click.csv
+           
+           """
 def clickCorpus(trainCorpus):
 
     userDF = pd.read_csv(fileConfig.userFile)
@@ -84,7 +90,11 @@ def clickCorpus(trainCorpus):
     else:
         resDF.to_csv('../corpus/test_click.csv', index=False)
 
-"""得到训练集的value"""
+"""
+将loan_sum.csv文件当中没出现用户当月消费金额填充为0
+输出：value.csv
+
+"""
 def fillUserLoadSum():
     loadSum = pd.read_csv(fileConfig.CovertedloanSumFile)
     userDF = pd.read_csv(fileConfig.userFile)

@@ -3,7 +3,11 @@
 import pandas as pd
 from fileConfig import fileConfig
 from datetime import datetime
-
+"""
+分析用户每个月的消费金额：根据月份统计用户每个月总的消费金额
+输入：trainCorpus：True 表示构造训练集 |trainCorpus：False 表示构造测试集
+输出：train_userMonthLoad.csv  |test_userMonthLoad.csv
+"""
 def analysisUserLoadPerMonth(trainCorpus=True):
     userDF = pd.read_csv(fileConfig.userFile)
     # with open()
